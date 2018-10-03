@@ -1,0 +1,37 @@
+.header {
+    background-color: #0000ff;
+}
+
+.nav {
+    background-color: #800080;
+}
+
+.main {
+    background-color: #ffd700;
+    display: block;
+    position: relative;
+    width: 73%;
+    height: 260px;
+    float: left;
+}
+
+.aside {
+    background-color: #808080;
+    width: 27%;
+    height: 260px;
+    float: right;
+}
+
+.footer {
+    background-color: #00ffff;
+    display: block;
+}
+
+body{
+    text-align: center;
+}
+
+p{
+    margin: 0%;
+    padding: 0%;
+}
