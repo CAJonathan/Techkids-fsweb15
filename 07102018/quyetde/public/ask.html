@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/ask">Hoi nhanh</a></li>
+            <li><a href="/answer">Dap gon</a></li>
+        </ul>
+    </nav>
+    <div>
+        <h1 id="title">Hoi 1 cau</h1>
+        <form action="/createQuestion" method="POST">
+            <textarea maxlength="200" id="textInput" name="questionContent" id="" cols="30" rows="10"></textarea>
+            <span id="word">Con <span id="remain">200</span>/200 ki tu</span>
+            <button type="submit">Gui</button>
+        </form>
+    </div>
+    <script src="/ask.js"></script>
+</body>
+</html>
