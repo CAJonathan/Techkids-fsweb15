@@ -5,13 +5,12 @@ const mongoose = require("mongoose");
 
 const QuestionModel = require("./model/questionModel")
 
-mongoose.connect("mongodb://localhost/quyetde", {useNewUrlParser: true, reconnectTries: 3 }, (err) => {
+mongoose.connect("mongodb://localhost/quyetde", {useNewUrlParser: true}, (err) => {
     if(err) console.log(err);
     else{
         console.log("Connected")
     }
 });
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(express.static("public"));
@@ -86,10 +85,11 @@ app.post("/answer", (req, res) => {
 	});
 })
 
-app.listen(8088, (err) =>{
+const port = 8088;
+app.listen(port, (err) =>{
     if(err){
         console.log(err);
     } else{
-        console.log("Server is running at port 8888");
+        console.log("Server is running at port " + port );
     }
 });

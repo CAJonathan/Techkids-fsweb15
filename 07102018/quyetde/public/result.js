@@ -4,12 +4,13 @@ const questionId = params[params.length - 1];
 $.ajax({
     url: "/questionDetail/" + questionId,
     type: "GET",
-    success: function(response){
-        if(response && response.success){
-            let question = response.question;
+    success: function(question){
+        if(question){
+
             let total = question.yes + question.no;
             let voteYes = ((question.yes / total) * 100).toFixed(2);
             let voteNo = ((question.no / total) * 100).toFixed(2);
+            console.log(333);
             if(total === 0){
                 voteYes = 0;
                 voteNo = 0;

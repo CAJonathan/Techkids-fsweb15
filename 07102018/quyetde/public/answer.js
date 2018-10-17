@@ -1,12 +1,12 @@
 function getQuestion(){
     $.ajax({
-        url: "http://localhost:8888/getQuestion",
+        url: "/getQuestion",
         type: "GET",
         success: function(response){
             if(response){
                 $("#question").text(response.questionContent);
-                $(".answer_btn").data("questionId", response.__id);
-                $("#result").attr("href", "/question/" + response.__id);
+                $(".answer_btn").data("questionId", response._id);
+                $("#result").attr("href", "/question/" + response._id);
             }
         },
         error: function(){
@@ -24,7 +24,7 @@ $("#otherQuestion").on("click", function(){
 $("#answer_btn").on("click", function(){
     let questionId = $(this).data("questionId");
     $.ajax({
-        url: "http://localhost:8888/answer",
+        url: "/answer",
         type: "POST",
         data: $(this).data(),
         success: function(response){
