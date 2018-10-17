@@ -1,6 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require('fs');
+const mongoose = require("mongoose");
+
+const QuestionModel = require("./model/questionModel")
+
+mongoose.connect("mongodb://localhost/quyetde", {useNewUrlParser: true, reconnectTries: 3 }, (err) => {
+    if(err) console.log(err);
+    else{
+        console.log("Connected")
+    }
+});
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -23,53 +33,60 @@ app.get("/result", (req, res) => {
 })
 
 app.get("/getQuestion", (req, res) => {
-    let questionList = JSON.parse(fs.readFileSync("./questions.json"));
-    if(questionList.length < 1){
-        res.send("");
-    }
+    QuestionModel.countDocuments().exec(function (err, count) {
 
-    var index = Math.floor(Math.random() * questionList.length);
-    res.send(questionList[index]);
+        var random = Math.floor(Math.random() * count)
+      
+        QuestionModel.findOne().skip(random).exec(
+          function (err, result) {
+            if(err){
+                console.log(err);
+            } else{
+                res.send(result);
+            }
+          })
+    })
 })
 
-var currentQuestionId = 0;
-
-app.post("/result", (req, res) => {
-    var currentQuestionId = req.body.questionId;
-    var questionList = JSON.parse(fs.readFileSync("./questions.json"));
-    fs.writeFileSync("./current.json", JSON.stringify(questionList[currentQuestionId]));
-    res.send({success: 1});
+app.get("/question/:questionId", (req, res) => {
+    res.sendFile(__dirname + "/public/result.html");
 })
 
-app.get("/current", (req, res) => {
-    var currentQuestion = JSON.parse(fs.readFileSync("./current.json"));
-    res.send(currentQuestion);
+app.get("/questionDetail/:questionId", (req, res) => {
+    let questionId = req.params.questionId;
+
+    QuestionModel.findById(questionId, (err, result) => {
+        res.send(result);
+    })
 })
 
 app.post("/createQuestion", (req, res) => {
-    let questionList = JSON.parse(fs.readFileSync("./questions.json"));
-
-    const newQuestion = {
-        id: questionList.length,
-        questionContent: req.body.questionContent,
-        yes: 0,
-        no: 0
-    }
-
-    questionList.push(newQuestion);
-
-    fs.writeFileSync("./questions.json", JSON.stringify(questionList))
-    res.redirect("/answer");
+    QuestionModel.create(
+        { questionContent: req.body.questionContent},
+        (err, questionCreated) => {
+            if(err) console.log(err)
+            else res.redirect("/question/" + questionCreated._id);
+        } 
+    )
 })
 
 app.post("/answer", (req, res) => {
-    let questionList = JSON.parse(fs.readFileSync("./questions.json"));
-    questionList[req.body.questionId][req.body.answer] ++;
-    fs.writeFileSync("./questions.json", JSON.stringify(questionList))
-    res.send({success: 1});
+    const { questionid, answer } = req.body;
+
+	QuestionModel.findOneAndUpdate(
+		{ "_id": questionid },
+		{ $inc: { [answer]: 1 } },
+		{ new: true },
+		(err, questionUpdated) => {
+			console.log(questionUpdated)
+			if(err) console.log(err)
+			else {
+				res.send({ success: 1 , question: questionUpdated });
+			}
+	});
 })
 
-app.listen(8888, (err) =>{
+app.listen(8088, (err) =>{
     if(err){
         console.log(err);
     } else{
