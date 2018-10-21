@@ -21,7 +21,7 @@ $("#otherQuestion").on("click", function(){
     getQuestion();
 })
 
-$("#answer_btn").on("click", function(){
+$(".answer_btn").on("click", function(){
     let questionId = $(this).data("questionId");
     $.ajax({
         url: "/answer",
@@ -33,7 +33,7 @@ $("#answer_btn").on("click", function(){
             }
         },
         error: function(error){
-            console.log(error);
+            console.log(333);
         }
     })
 })

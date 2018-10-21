@@ -10,7 +10,6 @@ $.ajax({
             let total = question.yes + question.no;
             let voteYes = ((question.yes / total) * 100).toFixed(2);
             let voteNo = ((question.no / total) * 100).toFixed(2);
-            console.log(333);
             if(total === 0){
                 voteYes = 0;
                 voteNo = 0;
@@ -18,8 +17,8 @@ $.ajax({
 
             $("#questionContent").text(question.questionContent);
             $("totalVote").text(question.yes + question.no);
-            $("#yes").text(voteYes);
-            $("#no").text(voteNo);
+            $("#yes").text(voteYes + "%");
+            $("#no").text(voteNo + "%");
         }
     },
     error: function(){

@@ -34,7 +34,7 @@ app.get("/result", (req, res) => {
 app.get("/getQuestion", (req, res) => {
     QuestionModel.countDocuments().exec(function (err, count) {
 
-        var random = Math.floor(Math.random() * count)
+        var random = Math.floor(Math.random() * (count - 1))
       
         QuestionModel.findOne().skip(random).exec(
           function (err, result) {
@@ -45,6 +45,7 @@ app.get("/getQuestion", (req, res) => {
             }
           })
     })
+
 })
 
 app.get("/question/:questionId", (req, res) => {
@@ -55,7 +56,13 @@ app.get("/questionDetail/:questionId", (req, res) => {
     let questionId = req.params.questionId;
 
     QuestionModel.findById(questionId, (err, result) => {
-        res.send(result);
+        if(err){
+            console.log(err);
+        } else if(result == null){
+            console.log("Not found!")
+        } else{
+            res.send(result);
+        }
     })
 })
 
@@ -70,19 +77,24 @@ app.post("/createQuestion", (req, res) => {
 })
 
 app.post("/answer", (req, res) => {
-    const { questionid, answer } = req.body;
+    const { questionId, answer } = req.body;
 
-	QuestionModel.findOneAndUpdate(
-		{ "_id": questionid },
-		{ $inc: { [answer]: 1 } },
-		{ new: true },
-		(err, questionUpdated) => {
-			console.log(questionUpdated)
-			if(err) console.log(err)
-			else {
-				res.send({ success: 1 , question: questionUpdated });
-			}
-	});
+    QuestionModel.findById(questionId, (err, questionFound) => {
+        if(err){
+            console.log(333);
+        } else if(questionFound == null){
+            console.log("Not found!");
+        } else{
+            questionFound[answer] += 1;
+            questionFound.save((err) => {
+                if(err){
+                    console.log(333);
+                } else{
+                    res.send({success: 1});
+                }
+            })
+        }
+    })
 })
 
 const port = 8088;
