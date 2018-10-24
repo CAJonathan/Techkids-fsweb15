@@ -5,8 +5,7 @@ function getQuestion(){
         success: function(response){
             if(response){
                 $("#question").text(response.questionContent);
-                $(".answer_btn").data("questionId", response._id);
-                $("#result").attr("href", "/question/" + response._id);
+                $("button[name='btn_yesno']").data("questionId", response._id);
             }
         },
         error: function(){
@@ -21,7 +20,7 @@ $("#otherQuestion").on("click", function(){
     getQuestion();
 })
 
-$(".answer_btn").on("click", function(){
+$("button[name='btn_yesno']").on("click", function(){
     let questionId = $(this).data("questionId");
     $.ajax({
         url: "/answer",
@@ -36,5 +35,10 @@ $(".answer_btn").on("click", function(){
             console.log(333);
         }
     })
+})
+
+$("#result").on("click", function(){
+    let questionId = $("#yes").data("questionId");
+    window.location.href="/question/" + questionId;
 })
 

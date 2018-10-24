@@ -15,8 +15,10 @@ $.ajax({
                 voteNo = 0;
             }
 
-            $("#questionContent").text(question.questionContent);
+            $("#question").text(question.questionContent);
             $("totalVote").text(question.yes + question.no);
+            $("#question_result_no").style("width: " + voteNo);
+            $("#question_result_yes").style("width:" + voteYes);
             $("#yes").text(voteYes + "%");
             $("#no").text(voteNo + "%");
         }
@@ -24,4 +26,8 @@ $.ajax({
     error: function(){
         console.log(error);
     }
+})
+
+$("#other").on("click", function(){
+    window.location.href = "/answer";
 })

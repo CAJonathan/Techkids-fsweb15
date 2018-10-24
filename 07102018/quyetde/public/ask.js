@@ -15,3 +15,18 @@ $("#textInput").on("input", function(){
     $("#remain").text(remainChar);
 });
 
+$("#btn_ask").on("click", function(){
+    var question = $("#textInput").val();
+    $.ajax({
+        url: "/createQuestion",
+        type: "POST",
+        data: {questionContent: question},
+        success: function(res){
+            window.location.href="/question/" + res.questionId;
+        },
+        error: function(){
+
+        }
+    })
+})
+

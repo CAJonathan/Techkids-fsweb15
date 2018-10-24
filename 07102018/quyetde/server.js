@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const QuestionModel = require("./model/questionModel")
 
-mongoose.connect("mongodb://localhost/quyetde", {useNewUrlParser: true}, (err) => {
+mongoose.connect("mongodb://127.0.0.1/quyetde", {useNewUrlParser: true}, (err) => {
     if(err) console.log(err);
     else{
         console.log("Connected")
@@ -43,7 +43,7 @@ app.get("/getQuestion", (req, res) => {
             } else{
                 res.send(result);
             }
-          })
+        })
     })
 
 })
@@ -71,7 +71,9 @@ app.post("/createQuestion", (req, res) => {
         { questionContent: req.body.questionContent},
         (err, questionCreated) => {
             if(err) console.log(err)
-            else res.redirect("/question/" + questionCreated._id);
+            else {
+                res.send({questionId: questionCreated._id});
+            }
         } 
     )
 })
