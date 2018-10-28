@@ -38,17 +38,49 @@ app.get("/gameDetail/:gameId", (req, res) => {
 })
 
 app.post('/createPlayer', (req, res) => {
-    console.log('debug');
 	PlayerModel.create({
         playerName1: req.body.playerName1,
         playerName2: req.body.playerName2,
         playerName3: req.body.playerName3,
         playerName4: req.body.playerName4,
+        rounds: [[0,0,0,0]],
 	}, (err, playerCreate) => {
-		if (err) console.log(req.body)
+		if (err) console.log(333)
 		else{res.send({gameId: playerCreate._id});}
 	})
 });
+
+app.post("/addRound/:gameId", (req, res) => {
+    var gameId = req.params.gameId
+    console.log(gameId);
+    PlayerModel.findById(gameId, (err, gameFound) => {
+        if(err) console.log(err);
+        if(gameFound == null) console.log(333)
+        else{
+            gameFound.markModified('rounds');
+            gameFound.rounds.push([0, 0, 0, 0]);
+            gameFound.save();
+            res.send({success: 1});
+        }
+    });
+})
+
+app.post("/update", (req, res) =>{
+    var gameId = req.body.gameId;
+    var row = req.body.row;
+    var column = req.body.column;
+    var val = req.body.val;
+    PlayerModel.findById(gameId, (err, gameFound) => {
+        if(err) console.log(err);
+        else{
+            gameFound.markModified('rounds');
+            gameFound.rounds[row][column] = val;
+            gameFound.save();
+            res.send({success: 1});
+        }
+    });
+
+})
 
 app.use(express.static('public'));
 app.listen(4000, (err) => {

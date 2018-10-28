@@ -20,21 +20,47 @@ $.ajax({
 })
 
 $("#addRound").on("click", function() {
-    var newRound = `<tr>
-        <th scope="col">Round ${game.rounds.length}</th>
+    var newRound = 
+    `<tr>
+        <th scope="col">Round ${game.rounds.length + 1}</th>
         <th scope="col" id="player1">
-        <input type="number" class="form-control">
+        <input data-row="${game.rounds.length + 1}" data-column="0" type="number" class="form-control" value=0>
         </th>
         <th scope="col" id="player2">
-        <input type="number" class="form-control">
+        <input data-row="${game.rounds.length + 1}" data-column="1" type="number" class="form-control" value=0>
         </th>
         <th scope="col" id="player3">
-        <input type="number" class="form-control">
+        <input data-row="${game.rounds.length + 1}" data-column="2" type="number" class="form-control" value=0>
         </th>
         <th scope="col" id="player4">
-        <input type="number" class="form-control">
+        <input data-row="${game.rounds.length + 1}" data-column="3" type="number" class="form-control" value=0>
         </th>
     </tr>`
-    console.log(game.rounds.length);
+
     $("#rounds").append(newRound);
+    $.ajax({
+        url: "/addRound/" + gameId,
+        type: "POST",
+        success: function(res){
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+})
+
+$(document).on("input", ".form-control", function() {
+    $.ajax({
+        url: "/update",
+        type: "POST",
+        data: {gameId: game._id, row: $(this).data("row"), column: $(this).data("column"), val: $(this).val()},
+        success: function(res){
+            if(res.success){
+
+            }
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
 })
