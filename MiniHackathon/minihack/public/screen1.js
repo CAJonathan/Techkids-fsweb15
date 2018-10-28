@@ -1,6 +1,6 @@
-$(".btn").on("submit", function(event) {
+$("#form-rs").on("submit", function(event) {
 	event.preventDefault();
-	let Data = {playerName1: $("#playerName1"), playerName2: $("#playerName2"), playerName3: $("#playerName3"), playerName4: $("#playerName4"),}
+	let Data = {playerName1: $("#playerName1").val(), playerName2: $("#playerName2").val(), playerName3: $("#playerName3").val(), playerName4: $("#playerName4").val()}
 	$.ajax({
 		url: "http://localhost:4000/createPlayer",
 		type: "POST",
@@ -14,3 +14,4 @@ $(".btn").on("submit", function(event) {
 		}
 	})
 });
+

@@ -38,6 +38,7 @@ app.get("/gameDetail/:gameId", (req, res) => {
 })
 
 app.post('/createPlayer', (req, res) => {
+    console.log('debug');
 	PlayerModel.create({
         playerName1: req.body.playerName1,
         playerName2: req.body.playerName2,
