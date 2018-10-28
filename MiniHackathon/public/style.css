@@ -1,0 +1,8 @@
+.container{
+    padding-top: 50px;
+}
+
+#createNewGame{
+    display: flex;
+    justify-content: center;
+}
