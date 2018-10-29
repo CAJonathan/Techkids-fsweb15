@@ -12,6 +12,7 @@ mongoose.connect("mongodb://localhost/minihack", { useNewUrlParser: true }, (err
 
 });
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
 
 
 
@@ -50,12 +51,11 @@ app.post('/createPlayer', (req, res) => {
 	})
 });
 
-app.post("/addRound/:gameId", (req, res) => {
-    var gameId = req.params.gameId
-    console.log(gameId);
+app.post("/addRound", (req, res) => {
+    var gameId = req.body.id
     PlayerModel.findById(gameId, (err, gameFound) => {
         if(err) console.log(err);
-        if(gameFound == null) console.log(333)
+        if(gameFound == null) console.log("No Game Found!")
         else{
             gameFound.markModified('rounds');
             gameFound.rounds.push([0, 0, 0, 0]);
@@ -66,12 +66,13 @@ app.post("/addRound/:gameId", (req, res) => {
 })
 
 app.post("/update", (req, res) =>{
-    var gameId = req.body.gameId;
+    var gameId = req.body.id;
     var row = req.body.row;
     var column = req.body.column;
     var val = req.body.val;
     PlayerModel.findById(gameId, (err, gameFound) => {
         if(err) console.log(err);
+        else if(gameFound == null) console.log("No Game Found!")
         else{
             gameFound.markModified('rounds');
             gameFound.rounds[row][column] = val;
@@ -82,8 +83,7 @@ app.post("/update", (req, res) =>{
 
 })
 
-app.use(express.static('public'));
-app.listen(4000, (err) => {
-	if (err) console.log("err 2 la",err)
-	else console.log('Server is listening at port 4000');
+app.listen(8888, (err) => {
+	if (err) console.log(err)
+	else console.log('Server is listening at port 8888');
 });

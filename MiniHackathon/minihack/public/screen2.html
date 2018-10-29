@@ -25,10 +25,10 @@
             <tbody>
                 <tr>
                     <th scope="col">Sum Of Score</th>
+                    <th scope="col" id="player0Score">0</th>
                     <th scope="col" id="player1Score">0</th>
                     <th scope="col" id="player2Score">0</th>
                     <th scope="col" id="player3Score">0</th>
-                    <th scope="col" id="player4Score">0</th>
                 </tr>
                 <thead id="rounds">
                     <tr>
@@ -38,14 +38,27 @@
                         <th scope="col" id="player3"></th>
                         <th scope="col" id="player4"></th>
                     </tr>
+                    <tr>
+                        <th scope="col">Round 1</th>
+                        <th scope="col" id="player1">
+                            <input id="00" data-row="0" data-column="0" type="number" class="form-control" value=0>
+                        </th>
+                        <th scope="col" id="player2">
+                            <input id="01" data-row="0" data-column="1" type="number" class="form-control" value=0>
+                        </th>
+                        <th scope="col" id="player3">
+                            <input id="02" data-row="0" data-column="2" type="number" class="form-control" value=0>
+                        </th>
+                        <th scope="col" id="player4">
+                            <input id="03" data-row="0" data-column="3" type="number" class="form-control" value=0>
+                        </th>
+                    </tr>
                 </thead>
             </tbody>
-          </table>
-          <div class="d-flex justify-content-center ">
-                <button id="addRound" type="button" class="btn btn-danger btn-lg">Add Round</button>
-            </div>
-          
-          
+        </table>
+        <div class="d-flex justify-content-center ">
+            <button id="addRound" type="button" class="btn btn-danger btn-lg">Add Round</button>
+        </div>
     </div>
     
 </body>

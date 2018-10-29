@@ -2,7 +2,7 @@ $("#form-rs").on("submit", function(event) {
 	event.preventDefault();
 	let Data = {playerName1: $("#playerName1").val(), playerName2: $("#playerName2").val(), playerName3: $("#playerName3").val(), playerName4: $("#playerName4").val()}
 	$.ajax({
-		url: "http://localhost:4000/createPlayer",
+		url: "/createPlayer",
 		type: "POST",
 		data: Data,
 		success: function(response) {
