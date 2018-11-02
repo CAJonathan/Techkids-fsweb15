@@ -1,0 +1,6 @@
+uri: /api/.../endpoint
+method: get, post, put, delete, patch, ...
+C: post
+R: get
+U: put
+D: delete
