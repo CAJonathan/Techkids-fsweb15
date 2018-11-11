@@ -1,4 +1,5 @@
-const express = require("express");;
+const express = require("express");
+const bcrypt = require("bcrypt-nodejs");
 const UserRouter = express.Router();
 
 const UserModel = require("../model/userModel");
@@ -9,7 +10,7 @@ UserRouter.use((req, res, next) => {
 
 UserRouter.get("/", async(req, res) => {
     try {
-        const users = await UserModel.find({}, "name email avatar intro post").populate("post");
+        const users = await UserModel.find({}, "name email hashPassword avatar intro post").populate("post");
         res.json({ success: 1, users })
     } catch (error) {
         res.status(500).json({ success: 0, error: err });
@@ -30,10 +31,20 @@ UserRouter.get("/:id", async(req, res) => {
     }
 });
 
+UserRouter.use((req, res, next) => {
+    const {userInfo} = req.body;
+    if(userInfo && userInfo >= 1){
+        next();
+    } else{
+        rea.status(401).json({success: 0, message: "Permission denied"})
+    }
+})
+
 UserRouter.post("/", async(req, res) => {
     const {name, email, password, avatar, intro} = req.body;
+    const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync());
     try {
-        const userCreated = UserModel.create({name, email, password, avatar, intro});
+        const userCreated = await UserModel.create({name, email, hashPassword, avatar, intro});
         res.status(201).json({success: 1, user: userCreated});
     } catch (error) {
         res.status(500).json({success: 0, message: error});
@@ -49,7 +60,13 @@ UserRouter.put("/:id", async (req, res) => {
             res.status(404).json({success: 0, message: "Not Found!"})
         } else{
             for(key in {name, password, avatar, intro, post}){
-                if(userFound[key] && req.body[key]){
+                if(userFound["hashPassword"] && req.body["password"]){
+                    const plainPasswordNew = req.body["password"];
+                    const hashPasswordOld = userFound["hashPassword"];
+                    if(bcrypt.compareSync(plainPasswordNew, hashPasswordOld)){
+                        userFound["hashPassword"] = bcrypt.hashSync(plainPasswordNew, bcrypt.genSaltSync());
+                    }
+                }else if(userFound[key] && req.body[key]){
                     userFound[key] = req.body[key];
                 }
             }

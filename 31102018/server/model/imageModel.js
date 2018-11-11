@@ -8,7 +8,7 @@ const ImageSchema = new Schema({
     url: {type: String, require: true},
     caption: {type: String},
     title: {type: String, require: true},
-    comment: [{type: String}]
+    comment: {type: Schema.Types.ObjectId, ref: "Comment"},
 }, {
     timestamps: true    // created_at & updated_at
 });
