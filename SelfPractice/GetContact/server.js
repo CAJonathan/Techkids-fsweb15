@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const ContactModel = require("./Model/ContactModel");
 
-mongoose.connect("mongodb://127.0.0.1/Contact", { useCreateIndex: true, useNewUrlParser: true }, (err) => {
+mongoose.connect("mongodb://admin:sonbeo1998@ds255403.mlab.com:55403/contact", { useCreateIndex: true, useNewUrlParser: true }, (err) => {
     if(err){
         console.log(err);
     } else{
@@ -33,7 +33,7 @@ app.post("/", async(req, res) => {
 })
 
 const port = 8888;
-app.listen(port, (err) => {
+app.listen(process.env.PORT || 8888, (err) => {
     if(err){
         console.log(err);
     } else{
