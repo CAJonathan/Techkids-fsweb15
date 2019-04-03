@@ -21,11 +21,6 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use("/api/user", userRouter);
-app.use("/api/food", foodRouter);
-app.use("/api/ingredient", ingredientRouter);
-app.use("/auth", authRouter);
-
 app.use(session({
     secret: "lskjdfvnljhberybouiybdfs;vjnweirtunipertg",
     resave: false,
@@ -36,6 +31,11 @@ app.use(session({
         maxAge: 7*24*60*60*1000
     }
 }))
+
+app.use("/api/user", userRouter);
+app.use("/api/food", foodRouter);
+app.use("/api/ingredient", ingredientRouter);
+app.use("/api/auth", authRouter);
 
 app.get("/api", (req, res) => {
     req.session.username = "dongonson"

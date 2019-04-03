@@ -52,7 +52,7 @@ app.get("/api", (req, res) => {
 
 app.use("/api/auth", authRouter)
 
-const port = 8888;
+const port = 8000;
 app.listen(port, (err) => {
     if(err){
         console.log(err);

@@ -1,0 +1,23 @@
+.body{
+    background: #F1F3FA;
+}
+
+.profile{
+    padding: 20px 0 10px 0;
+}
+
+.list-group-item>.label{
+    float: left;
+}
+
+.avatar{
+    display: flex;
+    justify-content: center;
+}
+
+.value{
+    padding-left: 5%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

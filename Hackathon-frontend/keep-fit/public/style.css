@@ -1,0 +1,11 @@
+.body{
+    background: #F1F3FA;
+}
+
+.profile{
+    padding: 20px 0 10px 0;
+}
+
+.list-group-item>.label{
+    float: left;
+}

@@ -9,6 +9,7 @@ UserRouter.use((req, res, next) => {
 });
 
 UserRouter.get("/", async(req, res) => {
+    console.log(req.session.userInfo)
     try {
         const users = await UserModel.find({}, "name email hashPassword avatar intro post").populate("post");
         res.json({ success: 1, users })
@@ -31,14 +32,14 @@ UserRouter.get("/:id", async(req, res) => {
     }
 });
 
-UserRouter.use((req, res, next) => {
-    const {userInfo} = req.body;
-    if(userInfo && userInfo >= 1){
-        next();
-    } else{
-        rea.status(401).json({success: 0, message: "Permission denied"})
-    }
-})
+// UserRouter.use((req, res, next) => {
+//     const {userInfo} = req.body;
+//     if(userInfo && userInfo >= 1){
+//         next();
+//     } else{
+//         res.status(401).json({success: 0, message: "Permission denied"})
+//     }
+// })
 
 UserRouter.post("/", async(req, res) => {
     const {name, email, password, avatar, intro} = req.body;

@@ -31,7 +31,7 @@ ImageRouter.get("/:id", async(req, res) => {
 });
 
 ImageRouter.post("/", async(req, res) => {
-    const {user, url, caaption, title} = req.body;
+    const {user, url, caption, title} = req.body;
     try {
         const imageCreated = ImageModel.create({user, url, caption, title});
         res.status(201).json({success: 1, image: imageCreated});
